@@ -1,0 +1,68 @@
+// $set
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000067") },
+    {
+        $set: {
+            age: 69
+        }
+    }
+)
+
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000067") },
+    {
+        $set: {
+            interests:["Reading", "Gaming", "Writing"]
+        }
+    }
+)
+
+
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $set: {
+            "address.city": "Dhaka",
+            "address.country": "Bangladesh"
+        }
+    }
+)
+
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065"), "education.major": "Art" },
+    {
+        $set: {
+            "education.$.major": "CSE"
+        }
+    }
+)
+
+// To edit, add an element in an array we need to use $addToSet
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $addToSet: {
+            interests:"Coding"
+        }
+    }
+)
+
+// if we want to add more than one data then we need to use $each with $addToSet
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $addToSet: {
+            interests: { $each: ["Gaming", "Writing", "Reading"] }
+        }
+    }
+)
+
+// if we want to insert duplicate element we can use $push
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $push: {
+            interests: { $each: ["Gaming", "Writing", "Reading"] }
+        }
+    }
+)

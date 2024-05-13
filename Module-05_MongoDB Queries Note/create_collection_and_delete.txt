@@ -1,0 +1,5 @@
+// to create a collection
+db.createCollection("posts")
+
+// to delete a collection
+db.post.drop()

@@ -1,0 +1,13 @@
+// $all
+db.test.find({ interests: { $all: ["Cooking", "Writing"] } }).project({ interests: 1 })
+
+// $elemMatch
+db.test.find({
+    skills: {
+        $elemMatch: {
+            name: "JAVASCRIPT",
+            level: "Expert"
+
+        }
+    }
+}).project({ skills: 1 })

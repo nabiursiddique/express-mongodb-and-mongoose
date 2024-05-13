@@ -1,0 +1,31 @@
+db.test.find(
+    {
+        age: { $nin: [18, 20, 22, 24] },
+        gender: "Female",
+        interests: { $in: ['Cooking'] }
+    },
+    {
+        age: 1,
+        gender: 1,
+        interests:1
+
+    })
+    .sort({ age: 1 }
+    )
+
+// OR we can use it like that if we need only one 
+
+db.test.find(
+    {
+        age: { $nin: [18, 20, 22, 24] },
+        gender: "Female",
+        interests: "Cooking"
+    },
+    {
+        age: 1,
+        gender: 1,
+        interests:1
+
+    })
+    .sort({ age: 1 }
+    )

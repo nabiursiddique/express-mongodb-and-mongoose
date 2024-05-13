@@ -1,0 +1,9 @@
+// $exists
+db.test.find({ company: { $exists: true } })
+
+// $type
+db.test.find({ age: {$type: "string"} })
+db.test.find({ friends: {$type: "array"} })
+
+// $size
+db.test.find({ friends: {$size: 4} }).project({friends:1})

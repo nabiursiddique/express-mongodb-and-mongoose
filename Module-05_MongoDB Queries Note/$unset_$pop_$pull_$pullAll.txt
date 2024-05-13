@@ -1,0 +1,23 @@
+// $unset (if we want to remove a filed)
+db.test.updateOne(
+   {_id: ObjectId("6406ad63fc13ae5a40000065")},
+   {$unset: {birthday: "" }}
+)
+
+// $pop (if we want to delete last element of an array)
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $pop: { friends: 1 } }
+)
+
+// $pull
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $pull: { friends: "Fahim Ahammed Firoz" } }
+)
+
+// $pullAll
+db.test.updateOne(
+    { _id: ObjectId("6406ad63fc13ae5a40000065") },
+    { $pullAll: { friends: ["Fahim Ahammed Firoz","Tanmoy Parvez"] } }
+)

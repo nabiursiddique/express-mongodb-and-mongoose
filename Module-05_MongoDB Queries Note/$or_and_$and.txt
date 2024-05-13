@@ -1,0 +1,60 @@
+**** Logical query operator ****
+
+
+//******* Implicit and operator
+db.test.find({ age: { $ne: 15, $lte: 30 } })
+
+
+//******* Explicit and operator
+db.test.find({ $and: [{ age: { $ne: 20 } }, { age: { $lte: 30 } }] })
+
+
+//******** we use project to see the declared property values. 
+db.test.find({ 
+    $and: [
+        { age: { $ne: 20 } }, 
+        { age: { $lte: 30 } }
+        ] 
+}).project({ age: 1 })
+
+
+//******* if we want to sort in ascending order with Explicit and
+db.test.find({
+    $and: [
+        {gender: "Female"},
+        { age: { $ne: 20 } },
+        { age: { $lte: 30 } }
+    ]
+}).project(
+    {
+        age: 1,
+        gender: 1 
+    },
+).sort({ age: 1 }) 
+
+
+//******* use of Explicit or 
+db.test.find({
+    $or: [
+        { interests: "Traveling" },
+        { interests: "Cooking" }
+    ]
+}).project({
+    "name.firstName": 1,
+    gender: 1,
+    interests: 1
+})
+
+
+//*********
+db.test.find({
+    $or: [
+        { "skills.name": "JAVASCRIPT" },
+        { "skills.name": "PYTHON" }
+    ]
+}).project({
+    "name.firstName": 1,
+    skills: 1,
+    gender: 1,
+    interests: 1
+})
