@@ -9,10 +9,17 @@ const port = 3000;
 // parsers
 app.use(express_1.default.json());
 app.use(express_1.default.text());
-app.get("/", (req, res) => {
+// middleware
+const logger = (req, res, next) => {
+    console.log(req.url, req.method, req.hostname);
+    next();
+};
+app.get("/", logger, (req, res) => {
+    // console.log(req.params);
+    // console.log(req.query.email);
     res.send("Hello developers");
 });
-app.post("/", (req, res) => {
+app.post("/", logger, (req, res) => {
     console.log(req.body);
     res.json({
         message: "successfully received data",
