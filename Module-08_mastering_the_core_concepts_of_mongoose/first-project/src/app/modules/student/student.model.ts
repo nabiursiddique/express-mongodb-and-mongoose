@@ -99,7 +99,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   password: {
     type: String,
     required: [true, 'Password is required'],
-    unique: true,
     maxLength: [20, "Password can't be more then 20 character"],
   },
   name: {
@@ -166,11 +165,15 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     },
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+//* Document middleware
 //pre save middleware/hook: will work on create() save()
 studentSchema.pre('save', async function (next) {
-  // console.log(this, 'pre hook: we will save the data');
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   // hashing password and save into DB
@@ -182,8 +185,25 @@ studentSchema.pre('save', async function (next) {
 });
 
 // post save middleware/hook
-studentSchema.post('save', function () {
-  console.log(this, 'pre hook: we saved our data');
+studentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+//* Query middleware
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $neq: true } });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $neq: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 // creating a custom static method
