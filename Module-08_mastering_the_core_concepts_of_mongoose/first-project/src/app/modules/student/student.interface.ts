@@ -25,6 +25,7 @@ export type TLocalGuardian = {
 
 export type TStudent = {
   id: string;
+  password: string;
   name: TUserName;
   gender: 'male' | 'female';
   dateOfBirth?: string;
@@ -42,6 +43,7 @@ export type TStudent = {
 
 // For creating static
 export interface StudentModel extends Model<TStudent> {
+  // eslint-disable-next-line no-unused-vars
   isUserExists(id: string): Promise<TStudent | null>;
 }
 // For creating instance
